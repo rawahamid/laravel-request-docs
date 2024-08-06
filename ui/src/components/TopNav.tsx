@@ -1,19 +1,20 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 
 import useLocalStorage from 'react-use-localstorage';
 import {
-    MagnifyingGlassIcon,
-    Cog6ToothIcon,
     ArrowUpRightIcon,
-    MoonIcon,
-    SunIcon,
-    XMarkIcon,
     Bars3BottomLeftIcon,
-    RectangleGroupIcon,
-    FunnelIcon,
+    ChatBubbleLeftIcon,
     CircleStackIcon,
-    ChatBubbleLeftIcon
+    Cog6ToothIcon,
+    FunnelIcon,
+    MagnifyingGlassIcon,
+    MoonIcon,
+    RectangleGroupIcon,
+    SunIcon,
+    XMarkIcon
 } from '@heroicons/react/24/outline'
+import type {IConfig} from "../libs/types.tsx";
 
 interface Props {
     handleChangeSettings: (
@@ -25,11 +26,11 @@ interface Props {
         showHead: string,
         sort: string,
         groupby: string) => void
-    handleSearch: (search: string) => void
+    handleSearch: (search: string) => void,
+    config: IConfig
 }
 export default function TopNav(props: Props) {
-
-    const { handleChangeSettings, handleSearch } = props
+    const { handleChangeSettings, handleSearch, config } = props
     const [theme, setTheme] = useLocalStorage('theme', '');
     const [sort, setSort] = useLocalStorage('sort', 'default');
     const [groupby, setGroupby] = useLocalStorage('groupby', 'default');
@@ -40,6 +41,7 @@ export default function TopNav(props: Props) {
     const [showPatch, setShowPatch] = useLocalStorage('showPatch', 'true');
     const [showHead, setShowHead] = useLocalStorage('showHead', 'false');
     const [savePreviousResponse, setSavePreviousResponse] = useLocalStorage('savePreviousResponse', 'false');
+    const [documenationTitle, setDocumenationTitle] = useLocalStorage('documenationTitle', config.title);
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const handleChangeGroupby = (e: any) => {
@@ -116,7 +118,7 @@ export default function TopNav(props: Props) {
                 <div className="flex-1">
                     <div className="normal-case text-xl">
                         <span className="pl-2">
-                            <span className='title'>Laravel Request Docs</span>
+                            <span className='title'>{documenationTitle}</span>
                             <sup className='pl-2'>
                                 <small>
                                     <a className="link link-info" href={`https://github.com/rakutentech/laravel-request-docs/releases/tag/${import.meta.env.PUBLIC_VERSION}`} target="_blank" rel="noreferrer">

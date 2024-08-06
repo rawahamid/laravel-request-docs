@@ -45,66 +45,67 @@ class LaravelRequestDocsMiddleware extends QueryLogger
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!config('request-docs.enabled')) {
+        if (! config('request-docs.enabled')) {
             return $next($request);
         }
 
-        if (!config('app.debug') && $request->headers->has('X-Request-LRD')) {
+        if (! config('app.debug') && $request->headers->has('X-Request-LRD')) {
             /** @var \Illuminate\Http\JsonResponse $response */
-            $response    = $next($request);
+            $response = $next($request);
             $jsonContent = json_encode([
                 'data' => $response->getData(),
             ]);
             $response->setContent((string) $jsonContent);
+
             return $response;
         }
 
-        if (!config('app.debug')) {
+        if (! config('app.debug')) {
             return $next($request);
         }
 
-        if (!$request->headers->has('X-Request-LRD')) {
+        if (! $request->headers->has('X-Request-LRD')) {
             return $next($request);
         }
 
-        if (!config('request-docs.hide_sql_data')) {
+        if (! config('request-docs.hide_sql_data')) {
             $this->listenToDB();
         }
 
-        if (!config('request-docs.hide_logs_data')) {
+        if (! config('request-docs.hide_logs_data')) {
             $this->listenToLogs();
         }
 
-        if (!config('request-docs.hide_models_data')) {
+        if (! config('request-docs.hide_models_data')) {
             $this->listenToModels();
         }
 
         $response = $next($request);
 
-        if (!$response instanceof JsonResponse) {
+        if (! $response instanceof JsonResponse) {
             return $response;
         }
 
         $content = [
             'data' => $response->getData(),
             '_lrd' => [
-                'queries'        => $this->queries,
-                'logs'           => $this->logs,
-                'models'         => $this->models,
+                'queries' => $this->queries,
+                'logs' => $this->logs,
+                'models' => $this->models,
                 // 'modelsTimeline' => $this->modelsTimeline,
                 'modelsTimeline' => array_unique($this->modelsTimeline, SORT_REGULAR),
-                'memory'         => ((string) round(memory_get_peak_usage(true) / 1048576, 2)) . "MB",
+                'memory' => ((string) round(memory_get_peak_usage(true) / 1048576, 2)).'MB',
             ],
         ];
 
         $jsonContent = json_encode($content);
 
-        if (!$jsonContent) {
+        if (! $jsonContent) {
             return $next($request);
         }
 
         if (in_array('gzip', $request->getEncodings()) && function_exists('gzencode')) {
-            $level             = 9; // Best compression.
+            $level = 9; // Best compression.
             $compressedContent = gzencode($jsonContent, $level);
 
             if ($compressedContent === false) {
@@ -116,8 +117,8 @@ class LaravelRequestDocsMiddleware extends QueryLogger
 
             // Add necessary headers.
             $response->headers->add([
-                'Content-Type'     => 'application/json; charset=utf-8',
-                'Content-Length'   => strlen($compressedContent),
+                'Content-Type' => 'application/json; charset=utf-8',
+                'Content-Length' => strlen($compressedContent),
                 'Content-Encoding' => 'gzip',
             ]);
 
@@ -168,11 +169,11 @@ class LaravelRequestDocsMiddleware extends QueryLogger
                     'model' => $class,
                 ];
 
-                if (!isset($this->models[$class])) {
+                if (! isset($this->models[$class])) {
                     $this->models[$class] = [];
                 }
 
-                if (!isset($this->models[$class][$event])) {
+                if (! isset($this->models[$class][$event])) {
                     $this->models[$class][$event] = 0;
                 }
 

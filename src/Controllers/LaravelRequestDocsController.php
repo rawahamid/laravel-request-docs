@@ -12,12 +12,13 @@ use Rakutentech\LaravelRequestDocs\LaravelRequestDocsToOpenApi;
 class LaravelRequestDocsController extends Controller
 {
     private LaravelRequestDocs $laravelRequestDocs;
+
     private LaravelRequestDocsToOpenApi $laravelRequestDocsToOpenApi;
 
     public function __construct(LaravelRequestDocs $laravelRequestDoc, LaravelRequestDocsToOpenApi $laravelRequestDocsToOpenApi)
     {
         $this->laravelRequestDocsToOpenApi = $laravelRequestDocsToOpenApi;
-        $this->laravelRequestDocs          = $laravelRequestDoc;
+        $this->laravelRequestDocs = $laravelRequestDoc;
     }
 
     /**
@@ -34,12 +35,12 @@ class LaravelRequestDocsController extends Controller
      */
     public function api(Request $request): JsonResponse
     {
-        $showGet    = !$request->has('showGet') || $request->input('showGet') === 'true';
-        $showPost   = !$request->has('showPost') || $request->input('showPost') === 'true';
-        $showPut    = !$request->has('showPut') || $request->input('showPut') === 'true';
-        $showPatch  = !$request->has('showPatch') || $request->input('showPatch') === 'true';
-        $showDelete = !$request->has('showDelete') || $request->input('showDelete') === 'true';
-        $showHead   = !$request->has('showHead') || $request->input('showHead') === 'true';
+        $showGet = ! $request->has('showGet') || $request->input('showGet') === 'true';
+        $showPost = ! $request->has('showPost') || $request->input('showPost') === 'true';
+        $showPut = ! $request->has('showPut') || $request->input('showPut') === 'true';
+        $showPatch = ! $request->has('showPatch') || $request->input('showPatch') === 'true';
+        $showDelete = ! $request->has('showDelete') || $request->input('showDelete') === 'true';
+        $showHead = ! $request->has('showHead') || $request->input('showHead') === 'true';
 
         // Get a list of Doc with route and rules information.
         // If user defined `Route::match(['get', 'post'], 'uri', ...)`,
@@ -92,7 +93,7 @@ class LaravelRequestDocsController extends Controller
         $path = explode('/', $request->path());
         $path = end($path);
         // read js, css from dist folder
-        $path = base_path() . "/vendor/rakutentech/laravel-request-docs/resources/dist/_astro/" . $path;
+        $path = base_path().'/vendor/rakutentech/laravel-request-docs/resources/dist/_astro/'.$path;
 
         if (file_exists($path)) {
             $headers = ['Content-Type' => 'text/plain'];
@@ -124,7 +125,8 @@ class LaravelRequestDocsController extends Controller
 
             // set cache control headers
             $headers['Cache-Control'] = 'public, max-age=1800';
-            $headers['Expires']       = gmdate('D, d M Y H:i:s \G\M\T', time() + 1800);
+            $headers['Expires'] = gmdate('D, d M Y H:i:s \G\M\T', time() + 1800);
+
             return response()->file($path, $headers);
         }
 
@@ -137,9 +139,10 @@ class LaravelRequestDocsController extends Controller
     public function config(Request $request): JsonResponse
     {
         $config = [
-            'title'           => config('request-docs.title'),
+            'title' => config('request-docs.title'),
             'default_headers' => config('request-docs.default_headers'),
         ];
+
         return response()->json($config);
     }
 }

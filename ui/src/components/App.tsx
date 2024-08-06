@@ -1,5 +1,4 @@
-
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import TopNav from "./TopNav"
 import Sidebar from './Sidebar';
 import ApiInfo from './ApiInfo';
@@ -7,7 +6,7 @@ import ApiAction from './ApiAction';
 import useLocalStorage from 'react-use-localstorage';
 import shortid from 'shortid';
 import Fuse from 'fuse.js';
-import type { IAPIInfo, IConfig } from '../libs/types'
+import type {IAPIInfo, IConfig} from '../libs/types'
 
 
 export default function App() {
@@ -153,7 +152,7 @@ export default function App() {
     return (
         <>
             <div className="sticky top-0 z-50 bg-gray-400">
-                <TopNav handleChangeSettings={handleChangeSettings} handleSearch={handleSearch} />
+                <TopNav handleChangeSettings={handleChangeSettings} handleSearch={handleSearch} config={config} />
                 {sendingRequest && (
                     <progress className="progress progress-success w-full"></progress>
                 )}

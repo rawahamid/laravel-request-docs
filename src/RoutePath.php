@@ -14,11 +14,12 @@ class RoutePath
 {
     private const TYPE_MAP = [
         'bool' => 'boolean',
-        'int'  => 'integer',
+        'int' => 'integer',
     ];
 
     /**
      * @return array<string, string>
+     *
      * @throws \ReflectionException
      */
     public function getPathParameters(Route $route): array
@@ -40,6 +41,7 @@ class RoutePath
      *
      * @param  array<string, string>  $pathParameters
      * @return array<string, string>
+     *
      * @throws \ReflectionException
      */
     private function setParameterType(Route $route, array $pathParameters): array
@@ -49,7 +51,7 @@ class RoutePath
         /** @var string $parameterName */
         foreach ($route->parameterNames() as $position => $parameterName) {
             // Check `$bindableParameters` existence by comparing the position of route parameters.
-            if (!isset($bindableParameters[$position])) {
+            if (! isset($bindableParameters[$position])) {
                 continue;
             }
 
@@ -58,13 +60,14 @@ class RoutePath
             // For builtin type, always get the type from reflection parameter.
             if ($bindableParameter['class'] === null) {
                 $pathParameters[$parameterName] = $this->getParameterType($bindableParameter['parameter']);
+
                 continue;
             }
 
             $resolved = $bindableParameter['class'];
 
             // Check if is model parameter?
-            if (!$resolved->isSubclassOf(Model::class)) {
+            if (! $resolved->isSubclassOf(Model::class)) {
                 continue;
             }
 
@@ -111,6 +114,7 @@ class RoutePath
      * The ordering of returned parameter should be maintained to match with route path parameter.
      *
      * @return array<int, array{parameter: \ReflectionParameter, class: \ReflectionClass<\Illuminate\Database\Eloquent\Model>|null}>
+     *
      * @throws \ReflectionException
      */
     private function getBindableParameters(Route $route): array
@@ -125,21 +129,22 @@ class RoutePath
             if ($className === null) {
                 $parameters[] = [
                     'parameter' => $reflectionParameter,
-                    'class'     => null,
+                    'class' => null,
                 ];
+
                 continue;
             }
 
             // Check if the class name is a bindable objects, such as model. Skip if not.
             $reflectionClass = new ReflectionClass($className);
 
-            if (!$reflectionClass->implementsInterface(UrlRoutable::class)) {
+            if (! $reflectionClass->implementsInterface(UrlRoutable::class)) {
                 continue;
             }
 
             $parameters[] = [
                 'parameter' => $reflectionParameter,
-                'class'     => $reflectionClass,
+                'class' => $reflectionClass,
             ];
         }
 
@@ -157,6 +162,7 @@ class RoutePath
         foreach ($pathParameters as $parameter => $rule) {
             if (in_array($parameter, $optionalParameters)) {
                 $pathParameters[$parameter] .= '|nullable';
+
                 continue;
             }
 
@@ -173,11 +179,11 @@ class RoutePath
     private function setRegex(Route $route, array $pathParameters): array
     {
         foreach ($pathParameters as $parameter => $rule) {
-            if (!isset($route->wheres[$parameter])) {
+            if (! isset($route->wheres[$parameter])) {
                 continue;
             }
 
-            $pathParameters[$parameter] .= '|regex:/' . $route->wheres[$parameter] . '/';
+            $pathParameters[$parameter] .= '|regex:/'.$route->wheres[$parameter].'/';
         }
 
         return $pathParameters;
@@ -206,7 +212,7 @@ class RoutePath
         }
 
         // See https://github.com/phpstan/phpstan/issues/3886
-        if (!$reflectionNamedType instanceof ReflectionNamedType) {
+        if (! $reflectionNamedType instanceof ReflectionNamedType) {
             return 'string';
         }
 
@@ -227,6 +233,7 @@ class RoutePath
 
             if ($bindingName === null) {
                 $mutatedPath[$name] = $pathParameters[$name];
+
                 continue;
             }
 

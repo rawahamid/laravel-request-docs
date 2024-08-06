@@ -14,7 +14,5 @@ class RequestWithoutRules extends FormRequest
         return true;
     }
 
-    protected function prepareForValidation(): void
-    {
-    }
+    protected function prepareForValidation(): void {}
 }

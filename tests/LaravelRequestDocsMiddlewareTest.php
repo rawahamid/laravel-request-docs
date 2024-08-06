@@ -70,7 +70,7 @@ class LaravelRequestDocsMiddlewareTest extends TestCase
         $this->get(
             'middleware',
             [
-                'X-Request-LRD'   => true,
+                'X-Request-LRD' => true,
                 'Accept-Encoding' => 'gzip',
             ],
         )
@@ -81,6 +81,7 @@ class LaravelRequestDocsMiddlewareTest extends TestCase
     {
         Route::get('middleware', static function () {
             Log::info('aaa');
+
             return response()->json(['test' => true]);
         })->middleware(LaravelRequestDocsMiddleware::class);
 
@@ -93,7 +94,7 @@ class LaravelRequestDocsMiddlewareTest extends TestCase
 
         $this->assertSame([
             [
-                'level'   => 'info',
+                'level' => 'info',
                 'message' => 'aaa',
                 'context' => [],
             ],
@@ -104,6 +105,7 @@ class LaravelRequestDocsMiddlewareTest extends TestCase
     {
         Route::get('middleware', static function () {
             DB::select('SELECT 1');
+
             return response()->json(['test' => true]);
         })->middleware(LaravelRequestDocsMiddleware::class);
 

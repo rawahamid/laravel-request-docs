@@ -16,6 +16,7 @@ class WelcomeController
      * @lrd:start
      * #Hello markdown
      * ## Documentation for /my route
+     *
      * @lrd:end
      * After
      */
@@ -34,6 +35,7 @@ class WelcomeController
      * @LRDparam search_array array
      * @LRDparam search_integer integer
      * @LRDparam search_boolean boolean
+     *
      * @LRDresponses 200|400|401
      */
     public function edit(WelcomeEditRequest $request): int
@@ -60,7 +62,7 @@ class WelcomeController
     }
 
     /**
-     * @param mixed $unknown
+     * @param  mixed  $unknown
      */
     public function health($unknown): int
     {

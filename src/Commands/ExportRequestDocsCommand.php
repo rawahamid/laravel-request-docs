@@ -47,7 +47,7 @@ class ExportRequestDocsCommand extends Command
      */
     public function handle(): int
     {
-        if (!$this->confirmFilePathAvailability()) {
+        if (! $this->confirmFilePathAvailability()) {
             //silently stop command
             return self::SUCCESS;
         }
@@ -58,12 +58,12 @@ class ExportRequestDocsCommand extends Command
             $excludedMethods = array_map(static fn ($item) => strtolower($item), $excludedMethods);
 
             //filter while method apis to export
-            $showGet    = !in_array('get', $excludedMethods);
-            $showPost   = !in_array('post', $excludedMethods);
-            $showPut    = !in_array('put', $excludedMethods);
-            $showPatch  = !in_array('patch', $excludedMethods);
-            $showDelete = !in_array('delete', $excludedMethods);
-            $showHead   = !in_array('head', $excludedMethods);
+            $showGet = ! in_array('get', $excludedMethods);
+            $showPost = ! in_array('post', $excludedMethods);
+            $showPut = ! in_array('put', $excludedMethods);
+            $showPatch = ! in_array('patch', $excludedMethods);
+            $showDelete = ! in_array('delete', $excludedMethods);
+            $showHead = ! in_array('head', $excludedMethods);
 
             // Get a list of Doc with route and rules information.
             $docs = $this->laravelRequestDocs->getDocs(
@@ -80,11 +80,12 @@ class ExportRequestDocsCommand extends Command
             $docs = $this->laravelRequestDocs->sortDocs($docs, is_string($this->option('sort')) ? $this->option('sort') : 'default');
             $docs = $this->laravelRequestDocs->groupDocs($docs, is_string($this->option('groupby')) ? $this->option('groupby') : 'default');
 
-            if (!$this->writeApiDocsToFile($docs)) {
+            if (! $this->writeApiDocsToFile($docs)) {
                 throw new ErrorException("Failed to write on [{$this->exportFilePath}] file.");
             }
         } catch (Throwable $exception) {
-            $this->error('Error : ' . $exception->getMessage());
+            $this->error('Error : '.$exception->getMessage());
+
             return self::FAILURE;
         }
 
@@ -95,7 +96,7 @@ class ExportRequestDocsCommand extends Command
     {
         $path = $this->argument('path');
 
-        if (!$path) {
+        if (! $path) {
             $path = config('request-docs.export_path', 'api.json');
         }
 
@@ -104,7 +105,7 @@ class ExportRequestDocsCommand extends Command
         $path = str_replace(base_path('/'), '', $this->exportFilePath);
 
         if (file_exists($this->exportFilePath)) {
-            if (!$this->option('force')) {
+            if (! $this->option('force')) {
                 return $this->confirm("File exists on [{$path}]. Overwrite?", false) === true;
             }
         }
@@ -125,7 +126,7 @@ class ExportRequestDocsCommand extends Command
         $targetDirectory = dirname($this->exportFilePath);
 
         //create parent directory if not exists
-        if (!is_dir($targetDirectory)) {
+        if (! is_dir($targetDirectory)) {
             mkdir($targetDirectory, 0755, true);
         }
 

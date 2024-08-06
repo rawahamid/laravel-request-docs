@@ -107,17 +107,17 @@ class Doc implements Arrayable
         array $rules,
         string $docBlock
     ) {
-        $this->uri                = $uri;
-        $this->methods            = $methods;
-        $this->middlewares        = $middlewares;
-        $this->controller         = $controller;
+        $this->uri = $uri;
+        $this->methods = $methods;
+        $this->middlewares = $middlewares;
+        $this->controller = $controller;
         $this->controllerFullPath = $controllerFullPath;
-        $this->method             = $method;
-        $this->httpMethod         = $httpMethod;
-        $this->pathParameters     = $pathParameters;
-        $this->rules              = $rules;
-        $this->docBlock           = $docBlock;
-        $this->responses          = [];
+        $this->method = $method;
+        $this->httpMethod = $httpMethod;
+        $this->pathParameters = $pathParameters;
+        $this->rules = $rules;
+        $this->docBlock = $docBlock;
+        $this->responses = [];
     }
 
     public function getUri(): string
@@ -299,16 +299,16 @@ class Doc implements Arrayable
     public function toArray(): array
     {
         $result = [
-            'uri'                  => $this->uri,
-            'middlewares'          => $this->middlewares,
-            'controller'           => $this->controller,
+            'uri' => $this->uri,
+            'middlewares' => $this->middlewares,
+            'controller' => $this->controller,
             'controller_full_path' => $this->controllerFullPath,
-            'method'               => $this->method,
-            'http_method'          => $this->httpMethod,
-            'path_parameters'      => $this->pathParameters,
-            'rules'                => $this->rules,
-            'doc_block'            => $this->docBlock,
-            'responses'            => $this->responses,
+            'method' => $this->method,
+            'http_method' => $this->httpMethod,
+            'path_parameters' => $this->pathParameters,
+            'rules' => $this->rules,
+            'doc_block' => $this->docBlock,
+            'responses' => $this->responses,
         ];
 
         if (isset($this->group)) {

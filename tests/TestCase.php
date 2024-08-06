@@ -46,18 +46,18 @@ class TestCase extends Orchestra
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     protected function getEnvironmentSetUp($app)
     {
-        app()->setBasePath(__DIR__ . '/../');
+        app()->setBasePath(__DIR__.'/../');
 
         $app['config']->set('database.default', 'testing');
         $app['config']->set('app.debug', true);
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     protected function getPackageProviders($app)
     {

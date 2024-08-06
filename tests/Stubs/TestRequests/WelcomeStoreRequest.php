@@ -22,7 +22,7 @@ class WelcomeStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'error'         => ['string', 'exists:' . $this->user->id],
+            'error' => ['string', 'exists:'.$this->user->id],
             'message_param' => 'nullable|string',
         ];
     }

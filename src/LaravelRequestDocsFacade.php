@@ -6,12 +6,13 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * @codeCoverageIgnore
+ *
  * @see \Rakutentech\LaravelRequestDocs\LaravelRequestDocs
  */
 class LaravelRequestDocsFacade extends Facade
 {
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     protected static function getFacadeAccessor()
     {

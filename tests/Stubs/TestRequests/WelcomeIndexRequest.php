@@ -23,11 +23,11 @@ class WelcomeIndexRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'     => ['nullable', 'string', 'min:5', 'max:255'],
-            'title'    => new Uppercase(),
-            'file'     => 'file',
-            'image'    => 'image',
-            'page'     => 'nullable|integer|min:1',
+            'name' => ['nullable', 'string', 'min:5', 'max:255'],
+            'title' => new Uppercase,
+            'file' => 'file',
+            'image' => 'image',
+            'page' => 'nullable|integer|min:1',
             'per_page' => 'nullable|integer|min:1|max:100',
         ];
     }
